@@ -1,7 +1,6 @@
 import Course from "../models/course.model.js";
 export const createCourseHandler = async (req, res, next) => {
   try {
-    console.log(req.body)
     const newUser = await Course.create(req.body);
     await newUser.save();
     res.status(201).json(newUser);
@@ -10,9 +9,40 @@ export const createCourseHandler = async (req, res, next) => {
   }
 };
 
+import Course from '../models/Course'; // Assuming Course model is imported correctly
+import { isValidObjectId } from 'mongoose';
+
 export const getCourseHandler = async (req, res, next) => {
   try {
-    const courses = await Course.find(req.body.name);
+    let query = {};
+
+    if (req.query) {
+      if (req.query.name) {
+        query.name = { $regex: req.query.name, $options: 'i' };
+      }
+
+      if (req.query.institutionId) {
+        query.institutionId = req.query.institutionId;
+      }
+      
+      if (req.query.level) {
+        query.level = req.query.level;
+      }
+    }
+
+    if (req.query.search) {
+      const searchTerms = req.query.search.split(' ');
+      const searchQuery = {
+        $or: [
+          { name: { $in: searchTerms, $options: 'i' } },
+          { description: { $regex: req.query.search, $options: 'i' } },
+        ],
+      };
+      query.$and = [query.$and || {}, searchQuery];
+    }
+
+    const courses = await Course.find(query);
+
     res.status(200).json(courses);
   } catch (error) {
     next(error);
