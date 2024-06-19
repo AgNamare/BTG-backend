@@ -1,4 +1,4 @@
-import Course from "../models/course.model.js";
+import Course from "../models/course.model.js"
 export const createCourseHandler = async (req, res, next) => {
   try {
     const newUser = await Course.create(req.body);
@@ -9,7 +9,6 @@ export const createCourseHandler = async (req, res, next) => {
   }
 };
 
-import Course from '../models/Course'; // Assuming Course model is imported correctly
 import { isValidObjectId } from 'mongoose';
 
 export const getCourseHandler = async (req, res, next) => {

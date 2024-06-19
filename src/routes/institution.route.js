@@ -3,7 +3,7 @@ import { createInstitutionHandler, getInstitutionsHandler } from "../controllers
 
 const router = Router();
 
-router.post("/", createInstitutionHandler)
-router.get("/", getInstitutionHandler)
+router.post("/", createInstitutionHandler);
+router.get("/", getInstitutionsHandler);
 
-export default router
+export default router;

@@ -11,7 +11,7 @@ export const createInstitutionHandler = async (req, res, next) => {
   }
 }
 
-export const getInstitutionHandler = async (req, res, next) => {
+export const getInstitutionsHandler = async (req, res, next) => {
   try {
     let query = {};
 
