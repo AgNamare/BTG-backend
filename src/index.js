@@ -4,16 +4,19 @@ import dotenv from "dotenv";
 import coursesRoutes from "./routes/courses.route.js";
 import institutionsRoutes from "./routes/institution.route.js";
 import bodyParser from "body-parser";
+import cors from "cors"; // Import cors package
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Enable CORS
+app.use(cors());
+
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect("mongodb+srv://agnamare:USwQNKfBZD9DeLAc@cluster0.umhoehx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     console.log("connected to database");
   })
@@ -21,8 +24,8 @@ mongoose
     console.log(err);
   });
 
-app.use("/courses", coursesRoutes);
-app.use("/institutions", institutionsRoutes);
+app.use("/api/courses", coursesRoutes);
+app.use("/api/institutions", institutionsRoutes); // Fix the path here
 
 app.listen(3000, () => console.log("Server started on port 3000"));
 

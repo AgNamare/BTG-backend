@@ -1,5 +1,5 @@
 import Institution from "../models/institution.model.js";
-import { isValidObjectId } from 'mongoose';
+import { isValidObjectId } from "mongoose";
 
 export const createInstitutionHandler = async (req, res, next) => {
   try {
@@ -9,33 +9,34 @@ export const createInstitutionHandler = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}
+};
 
-export const getInstitutionHandler = async (req, res, next) => {
+export const getInstitutionsHandler = async (req, res, next) => {
   try {
+    console.log("Fetching institutions with query parameters:", req.params.institutionType);
+
     let query = {};
 
     // Check if there are query parameters for filtering
-    if (req.query) {
-      // Example: filtering by name
-      if (req.query.name) {
-        query.name = { $regex: req.query.name, $options: 'i' };
-      }
-
-      // Add more filters as needed based on your Institution schema
-      // Example: filtering by location
-      if (req.query.institutionType) {
-        query.institutionType = req.query.institutionType;
+    if (req.params) {
+      // Example: filtering by institutionType
+      if (req.params.institutionType) {
+        const institutionTypes = Array.isArray(req.params.institutionType)
+          ? req.params.institutionType
+          : [req.params.institutionType];
+        query.institutionType = { $in: institutionTypes };
       }
     }
 
+    console.log("Constructed query:", query);
+
     // Fetch institutions based on the constructed query
     const institutions = await Institution.find(query);
+    console.log("Fetched institutions:", institutions);
 
     res.status(200).json(institutions);
   } catch (error) {
+    console.error("Error fetching institutions:", error);
     next(error);
   }
-}
-
-
+};

@@ -4,6 +4,6 @@ import { createInstitutionHandler, getInstitutionsHandler } from "../controllers
 const router = Router();
 
 router.post("/", createInstitutionHandler)
-router.get("/", getInstitutionHandler)
+router.get("/", getInstitutionsHandler)
 
 export default router
