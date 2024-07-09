@@ -12,33 +12,29 @@ export const createInstitutionHandler = async (req, res, next) => {
 
 export const getInstitutionsHandler = async (req, res, next) => {
   try {
-    console.log(
-      "Fetching institutions with query parameters:",
-      req.params.institutionType
-    );
+    const institutionType = req.query.institutionType;
+
+    if (!institutionType) {
+      // If institutionType query parameter is not provided
+      return res.status(400).json({ error: 'Missing institutionType parameter' });
+    }
 
     let query = {};
 
-    // Check if there are query parameters for filtering
-    if (req.params) {
-      // Example: filtering by institutionType
-      if (req.params.institutionType) {
-        const institutionTypes = Array.isArray(req.params.institutionType)
-          ? req.params.institutionType
-          : [req.params.institutionType];
-        query.institutionType = { $in: institutionTypes };
-      }
+    if (Array.isArray(institutionType)) {
+      // If institutionType is an array
+      query.institutionType = { $in: institutionType };
+    } else {
+      // If institutionType is a single value
+      query.institutionType = institutionType;
     }
 
-    console.log("Constructed query:", query);
-
-    // Fetch institutions based on the constructed query
+    // Querying institutions based on the constructed query
     const institutions = await Institution.find(query);
-    console.log("Fetched institutions:", institutions);
 
     res.status(200).json(institutions);
   } catch (error) {
-    console.error("Error fetching institutions:", error);
+    console.error('Error fetching institutions:', error);
     next(error);
   }
 };
