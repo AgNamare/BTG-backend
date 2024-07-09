@@ -14,19 +14,13 @@ export const getInstitutionsHandler = async (req, res, next) => {
   try {
     const institutionType = req.query.institutionType;
 
-    if (!institutionType) {
-      // If institutionType query parameter is not provided
-      return res.status(400).json({ error: 'Missing institutionType parameter' });
-    }
-
     let query = {};
-
-    if (Array.isArray(institutionType)) {
-      // If institutionType is an array
-      query.institutionType = { $in: institutionType };
-    } else {
-      // If institutionType is a single value
-      query.institutionType = institutionType;
+    if (institutionType) {
+      if (Array.isArray(institutionType)) {
+        query.institutionType = { $in: institutionType };
+      } else {
+        query.institutionType = institutionType;
+      }
     }
 
     // Querying institutions based on the constructed query
