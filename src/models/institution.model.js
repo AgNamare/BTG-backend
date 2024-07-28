@@ -1,33 +1,35 @@
-import mongoose  from "mongoose";
+// src/models/Institution.js
 
-const institutionSchema = new mongoose.Schema({
-  fullName: {
+import mongoose from "mongoose";
+
+const { Schema } = mongoose;
+
+// Define schema for institution
+const institutionSchema = new Schema({
+  name: {
     type: String,
     required: true,
   },
-  websiteUrl: {
+  address: {
     type: String,
     required: true,
   },
-  institutionType: {
-    type: String,
-    enum: ['University', 'Private', 'TVET'],
+  latitude: {
+    type: Number,
     required: true,
   },
-  contactInformation: {
-    type: String,
+  longitude: {
+    type: Number,
     required: true,
   },
-  enrollmentInfo: {
-    type: String,
+  courses: {
+    type: [String],
     required: true,
   },
-  socialMediaLinks: {
-    type: String,
-    required: true,
-  },
+  // Add more fields as needed
 });
 
-const Institution = mongoose.model('Institution', institutionSchema);
+// Create model from schema
+const Institution = mongoose.model("Institution", institutionSchema);
 
-export default Institution
+export default Institution;

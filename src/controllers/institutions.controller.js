@@ -1,4 +1,6 @@
 import Institution from "../models/institution.model.js";
+import { calculateDistance } from "../utils/DistanceCalculator.js";
+
 
 export const createInstitutionHandler = async (req, res, next) => {
   try {
@@ -7,6 +9,50 @@ export const createInstitutionHandler = async (req, res, next) => {
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
+  }
+};
+// Example controller method for searching institutions
+export const searchInstitutions = async (req, res) => {
+  console.log(
+    "searchInstitutions: Start searching with query params",
+    req.query
+  );
+  const { courseName, userLat, userLng } = req.query;
+
+  try {
+    console.log(
+      `searchInstitutions: Fetching institutions for course: ${courseName}`
+    );
+    const institutions = await Institution.find({ courses: courseName });
+    console.log(
+      `searchInstitutions: Found ${institutions.length} institutions`
+    );
+
+    // Calculate distances and filter based on user's location
+    const institutionsWithDistance = institutions.map((institution) => {
+      const distance = calculateDistance(
+        userLat,
+        userLng,
+        institution.latitude,
+        institution.longitude
+      );
+      console.log(
+        `searchInstitutions: Calculated distance for institution ${institution._id}: ${distance}`
+      );
+      return {
+        ...institution.toObject(),
+        distance,
+      };
+    });
+
+    // Sort institutions by distance
+    institutionsWithDistance.sort((a, b) => a.distance - b.distance);
+    console.log("searchInstitutions: Sorted institutions by distance");
+
+    res.json({ institutions: institutionsWithDistance });
+  } catch (error) {
+    console.error("Error searching institutions:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
