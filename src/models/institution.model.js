@@ -26,7 +26,9 @@ const institutionSchema = new Schema({
     type: [String],
     required: true,
   },
-  // Add more fields as needed
+  imageUrl: {
+    type: [String],
+  },
 });
 
 // Create model from schema
