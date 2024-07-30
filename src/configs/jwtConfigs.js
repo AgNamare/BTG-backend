@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -8,5 +8,4 @@ if (!secretKey) {
   throw new Error('SECRET_KEY is not defined in the environment variables');
 }
 
-
-export default secretKey;
+module.exports = secretKey;

@@ -1,6 +1,4 @@
-// src/models/Institution.js
-
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
@@ -34,4 +32,4 @@ const institutionSchema = new Schema({
 // Create model from schema
 const Institution = mongoose.model("Institution", institutionSchema);
 
-export default Institution;
+module.exports = Institution;

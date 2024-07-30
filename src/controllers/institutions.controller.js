@@ -1,18 +1,18 @@
-import Institution from "../models/institution.model.js";
-import { calculateDistance } from "../utils/DistanceCalculator.js";
+const Institution = require("../models/institution.model.js");
+const { calculateDistance } = require("../utils/DistanceCalculator.js");
 
-
-export const createInstitutionHandler = async (req, res, next) => {
+exports.createInstitutionHandler = async (req, res, next) => {
   try {
-    const newUser = await Institution.create(req.body);
-    await newUser.save();
-    res.status(201).json(newUser);
+    const newInstitution = await Institution.create(req.body);
+    await newInstitution.save();
+    res.status(201).json(newInstitution);
   } catch (error) {
     next(error);
   }
 };
+
 // Example controller method for searching institutions
-export const searchInstitutions = async (req, res) => {
+exports.searchInstitutions = async (req, res) => {
   console.log(
     "searchInstitutions: Start searching with query params",
     req.query
@@ -56,7 +56,7 @@ export const searchInstitutions = async (req, res) => {
   }
 };
 
-export const getInstitutionsHandler = async (req, res, next) => {
+exports.getInstitutionsHandler = async (req, res, next) => {
   try {
     const institutionType = req.query.institutionType;
 
@@ -79,7 +79,7 @@ export const getInstitutionsHandler = async (req, res, next) => {
   }
 };
 
-export const deleteInstitutionHandler = async (req, res, next) => {
+exports.deleteInstitutionHandler = async (req, res, next) => {
   try {
     const institutionId = req.params.institutionId;
     // Attempt to find and delete the institution
@@ -102,7 +102,7 @@ export const deleteInstitutionHandler = async (req, res, next) => {
   }
 };
 
-export const updateInstitutionHandler = async (req, res, next) => {
+exports.updateInstitutionHandler = async (req, res, next) => {
   try {
     const institutionId = req.params.institutionId;
     console.log(institutionId);

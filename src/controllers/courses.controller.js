@@ -1,18 +1,17 @@
-import Course from "../models/course.model.js"
+const Course = require("../models/course.model.js");
+const { isValidObjectId } = require("mongoose");
 
-export const createCourseHandler = async (req, res, next) => {
+exports.createCourseHandler = async (req, res, next) => {
   try {
-    const newUser = await Course.create(req.body);
-    await newUser.save();
-    res.status(201).json(newUser);
+    const newCourse = await Course.create(req.body);
+    await newCourse.save();
+    res.status(201).json(newCourse);
   } catch (error) {
     next(error);
   }
 };
 
-import { isValidObjectId } from 'mongoose';
-
-export const getCourseHandler = async (req, res, next) => {
+exports.getCourseHandler = async (req, res, next) => {
   try {
     let query = {};
 
@@ -22,7 +21,7 @@ export const getCourseHandler = async (req, res, next) => {
       }
 
       if (req.query.institutionId) {
-        query.institutionId = req.query.institutionId;
+        query.institution = req.query.institutionId; // Adjust field name if needed
       }
 
       if (req.query.level) {
@@ -49,21 +48,21 @@ export const getCourseHandler = async (req, res, next) => {
   }
 };
 
-export const updateCourseHandler = async (req, res, next) => {
+exports.updateCourseHandler = async (req, res, next) => {
   try {
-    const courses = await Course.findByIdAndUpdate(req.body.name, req.body, {
+    const course = await Course.findByIdAndUpdate(req.params.courseId, req.body, {
       new: true,
     });
-    res.status(200).json(courses);
+    res.status(200).json(course);
   } catch (error) {
     next(error);
   }
 };
 
-export const deleteCourseHandler = async (req, res, next) => {
+exports.deleteCourseHandler = async (req, res, next) => {
   try {
-    const courses = await Course.findByIdAndDelete(req.body.name);
-    res.status(200).json(courses);
+    const course = await Course.findByIdAndDelete(req.params.courseId);
+    res.status(200).json(course);
   } catch (error) {
     next(error);
   }

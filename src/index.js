@@ -1,11 +1,11 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import coursesRoutes from "./routes/courses.route.js";
-import institutionsRoutes from "./routes/institution.route.js";
-import bodyParser from "body-parser";
-import cors from "cors";
-import userRoutes from "./routes/auth.route.js";
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const coursesRoutes = require("./routes/courses.route.js");
+const institutionsRoutes = require("./routes/institution.route.js");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const userRoutes = require("./routes/auth.route.js");
 
 dotenv.config();
 

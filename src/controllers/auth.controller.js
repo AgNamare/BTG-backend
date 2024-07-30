@@ -1,4 +1,4 @@
-import {
+const {
   createUser,
   updateUser,
   // verifyUser,
@@ -6,12 +6,12 @@ import {
   updatePassword,
   logIn,
   // resendOtp,
-} from "../services/auth.service.js";
-import { userExists } from "../utils/userUtils.js";
+} = require("../services/auth.service.js");
+const { userExists } = require("../utils/userUtils.js");
 
-export const createUserHandler = async (req, res, next) => {
+exports.createUserHandler = async (req, res, next) => {
   try {
-    const { phoneNumber,userName, ...rest } = req.body;
+    const { phoneNumber, userName, ...rest } = req.body;
     const exist = await userExists(phoneNumber);
     if (exist) {
       throw new Error("User already exists");
@@ -24,7 +24,7 @@ export const createUserHandler = async (req, res, next) => {
   }
 };
 
-export const verifyUserHandler = async (req, res, next) => {
+exports.verifyUserHandler = async (req, res, next) => {
   try {
     const { phoneNumber, otp } = req.body;
     const user = await verifyUser(phoneNumber, otp);
@@ -34,7 +34,7 @@ export const verifyUserHandler = async (req, res, next) => {
   }
 };
 
-export const updateUserHandler = async (req, res, next) => {
+exports.updateUserHandler = async (req, res, next) => {
   try {
     const updatedUser = await updateUser(req.body);
     res.status(200).json("User Updated");
@@ -43,7 +43,7 @@ export const updateUserHandler = async (req, res, next) => {
   }
 };
 
-export const resetPasswordHandler = async (req, res, next) => {
+exports.resetPasswordHandler = async (req, res, next) => {
   try {
     const { phoneNumber } = req.body;
     const password = await resetPassword(phoneNumber);
@@ -54,7 +54,7 @@ export const resetPasswordHandler = async (req, res, next) => {
   }
 };
 
-export const updatePasswordHandler = async (req, res, next) => {
+exports.updatePasswordHandler = async (req, res, next) => {
   try {
     const { phoneNumber, password } = req.body;
     const pass = await updatePassword(phoneNumber, password);
@@ -65,7 +65,7 @@ export const updatePasswordHandler = async (req, res, next) => {
   }
 };
 
-export async function logInHandler(req, res, next) {
+exports.logInHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const { token, user } = await logIn(email, password);
@@ -77,9 +77,9 @@ export async function logInHandler(req, res, next) {
   } catch (error) {
     next(error);
   }
-}
+};
 
-// export const resendOtpHandler = async (req, res, next) => {
+// exports.resendOtpHandler = async (req, res, next) => {
 //   try {
 //     console.log(req.body);
 //     const { phoneNumber } = req.body;

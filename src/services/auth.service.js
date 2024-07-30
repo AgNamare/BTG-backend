@@ -1,13 +1,9 @@
-import User from "../models/user.model.js";
-import { userExists } from "../utils/userUtils.js";
-import bcrypt from "bcrypt";
-import { generateToken } from "../utils/userUtils.js";
-// import {
-//   generateVerificationCode,
-//   sendVerificationCode,
-// } from "../utils/verificationUtils.js";
+const User = require("../models/user.model.js");
+const { userExists, generateToken } = require("../utils/userUtils.js");
+const bcrypt = require("bcrypt");
+// const { generateVerificationCode, sendVerificationCode } = require("../utils/verificationUtils.js");
 
-// import Cart from "../models/cart.model.js";
+// const Cart = require("../models/cart.model.js");
 
 export const createUser = async (userData) => {
   const { password, phoneNumber, ...rest } = userData;
