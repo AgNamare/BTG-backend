@@ -3,7 +3,7 @@ const deg2rad = (deg) => {
 };
 
 // Define calculateDistance function using deg2rad
-export const calculateDistance = (lat1, lon1, lat2, lon2) => {
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of the Earth in km
   const dLat = deg2rad(lat2 - lat1);
   const dLon = deg2rad(lon2 - lon1);
@@ -17,3 +17,5 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const distance = R * c;
   return distance;
 };
+
+module.exports = { calculateDistance };

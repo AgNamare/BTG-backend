@@ -1,23 +1,30 @@
-import User from "../models/user.model.js";
-import jwt from "jsonwebtoken";
-import secretKey from "../configs/jwtConfigs.js";
+const User = require("../models/user.model.js");
+const jwt = require("jsonwebtoken");
+const secretKey = require("../configs/jwtConfigs.js");
 
-export const userExists = async (phoneNumber) => {
+// Check if a user exists by phone number
+const userExists = async (phoneNumber) => {
   try {
-    const existingUser = await User.findOne({ phoneNumber: phoneNumber });
-    return !!existingUser;
+    const existingUser = await User.findOne({ phoneNumber });
+    return !!existingUser; // Return true if user exists, otherwise false
   } catch (error) {
     console.error('Error checking user existence:', error);
-    return false; 
+    return false; // Return false if there was an error
   }
 };
 
+// Generate JWT token for a given user
+const generateToken = (user) => {
+  const payload = {
+    id: user._id,
+    email: user.email,
+    phoneNumber: user.phoneNumber // Ensure this property matches your schema
+  };
 
-export function generateToken (User){
-    const payload ={
-        id:User._id,
-        email : User.email,
-        phonenumber : User.phonenumber
-    }
-    return jwt.sign(payload,secretKey,{expiresIn :"1h"})
-}
+  return jwt.sign(payload, secretKey, { expiresIn: "1h" });
+};
+
+module.exports = {
+  userExists,
+  generateToken
+};

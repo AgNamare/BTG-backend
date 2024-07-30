@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 // const Cart = require("../models/cart.model.js");
 
-export const createUser = async (userData) => {
+const createUser = async (userData) => {
   const { password, phoneNumber, ...rest } = userData;
 
   try {
@@ -34,7 +34,7 @@ export const createUser = async (userData) => {
  * @param {string} code - The verification code to match.
  * @return {Promise<object>} The user object if verification is successful, otherwise an error.
  */
-// export const verifyUser = async (phoneNumber, code) => {
+// const verifyUser = async (phoneNumber, code) => {
 //   console.log(phoneNumber);
 //   try {
 //     const user = await User.findOne({ phoneNumber });
@@ -52,7 +52,7 @@ export const createUser = async (userData) => {
 //   }
 // };
 
-export const updateUser = async (data) => {
+const updateUser = async (data) => {
   try {
     const updatedUser = await User.findOneAndUpdate(
       { phoneNumber: data.phoneNumber },
@@ -67,7 +67,7 @@ export const updateUser = async (data) => {
   }
 };
 
-export const resetPassword = async (phoneNumber) => {
+const resetPassword = async (phoneNumber) => {
   try {
     const user = await User.findOne({ phoneNumber: phoneNumber });
     if (!user) {
@@ -82,7 +82,7 @@ export const resetPassword = async (phoneNumber) => {
   }
 };
 
-export const updatePassword = async (phoneNumber, password) => {
+const updatePassword = async (phoneNumber, password) => {
   try {
     const user = await User.findOne({ phoneNumber });
 
@@ -97,7 +97,7 @@ export const updatePassword = async (phoneNumber, password) => {
   }
 };
 
-export async function logIn(email, password) {
+const logIn = async (email, password) => {
   console.log(email, password);
   try {
     const existingUser = await User.findOne({ email: email });
@@ -123,9 +123,9 @@ export async function logIn(email, password) {
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};
 
-// export const resendOtp = async (phoneNumber) => {
+// const resendOtp = async (phoneNumber) => {
 //   try {
 //     console.log(phoneNumber);
 //     const user = await User.findOne({ phoneNumber });
@@ -138,3 +138,13 @@ export async function logIn(email, password) {
 //     throw new Error(error.message);
 //   }
 // };
+
+module.exports = {
+  createUser,
+  updateUser,
+  resetPassword,
+  updatePassword,
+  logIn,
+  // verifyUser,
+  // resendOtp,
+};
