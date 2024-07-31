@@ -29,6 +29,9 @@ const institutionSchema = new Schema({
   },
   Type:{
     type : String
+  },
+  websiteurl:{
+    type : String
   }
 });
 
